@@ -22,12 +22,11 @@
     <div>
 
     <?php
-    $connection = new PDO("mysql:host=localhost;dbname=blog", 'root', 'vagrant', [
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-        PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
-        PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'
+    $connection = new \PDO("mysql:host=localhost;dbname=blog", 'root', 'vagrant', [
+        \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
+        \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
+        \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'
     ]);
-        $statement =$connection->query("select *from blog_data");
         if (isset($title)&&isset($body)) {
             $sql = "INSERT INTO blog_data(`title`,`body`, `autor_id`) VALUES ('$title', '{$body}', 2)";
             if ($connection->query($sql))
