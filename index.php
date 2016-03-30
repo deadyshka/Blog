@@ -7,7 +7,7 @@
             Заголовок<br>
             <input type="text" name="title"><br>
             Тело<br>
-            <textarea name="body" cols="100" rows="5">text test</textarea><br>
+            <textarea name="body" cols="100" rows="5"></textarea><br>
              <input type="submit" value="Запостить">
         </form>
         <?php
@@ -39,7 +39,7 @@
 
         foreach ($row as $item=>$value)
         {
-            echo "<h1>.{$value['title']}</h1><br><div>{$value['body']}</div><hr>";
+            echo "<h1>{$value['title']}</h1><br><div>{$value['body']}</div><hr>";
         }
 
     ?>
