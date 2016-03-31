@@ -27,14 +27,21 @@ if (!empty($_POST['email']) && !empty($_POST['pass']))
     $sql = $connection->prepare(" SELECT * FROM `users` WHERE `email`=:_email AND `password`=:_pass");
     $sql->execute([':_email'=>$_POST['email'], ':_pass'=>md5($_POST['pass'])]);
 
-    if(!empty($sql->fetchAll()))
+    if(!empty( $data=$sql->fetchAll()))
     {
         echo "Авторизован".PHP_EOL;
         $_SESSION["autorisation"]=true;
+        $_SESSION["user"]=$data[0]['email'];
+
     }
     else
-    {echo "Неправильный логин или пароль".PHP_EOL;}
+    {echo "Неправильный логин или пароль".PHP_EOL;
+        var_dump($sql->fetchAll());}
 }
+//-------------------------------------------------------------------------------------------
+//Logout-------------------------------------------------------------------------------------
+if (!empty($_POST['btn_logout']))
+    $_SESSION["autorisation"]=false;
 //-------------------------------------------------------------------------------------------
 $row = $connection->query("SELECT `title`, `body`, `created` FROM blog_data ORDER BY `id` DESC");
 ?>
@@ -52,8 +59,8 @@ $row = $connection->query("SELECT `title`, `body`, `created` FROM blog_data ORDE
             <input type="submit" value="Запостить">
         </form>
     </div>
+    <div style="position: absolute; top:0; right:0; background-color: white; z-index: 10">
     <?php if(!$_SESSION["autorisation"]): ?>
-    <div style="position: fixed; top:0; right:0; background-color: white; z-index: 10">
         <form method="post" >
             Email:<br>
             <input type="text" name="email"><br>
@@ -61,8 +68,20 @@ $row = $connection->query("SELECT `title`, `body`, `created` FROM blog_data ORDE
             <input type="password" name="pass"><br>
             <input type="submit" value="Авторизоваться">
         </form>
-    </div>
+
+    <?php else: ?>
+        <div style="position: absolute; right: 50; top: 10; width: 300;">
+        Авторизован как:
+        <?= $_SESSION["user"]; ?>
+        </div>
+        <div style="position: absolute; right: 5; top: 5">
+        <form method="post" style="display: inline-block">
+            <input type="submit" name="btn_logout" value="Выйти">
+        </form>
+        </div>
     <?php endif; ?>
+
+    </div>
     <div>
 
         <?php
