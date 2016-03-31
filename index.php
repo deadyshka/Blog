@@ -19,17 +19,37 @@ $connection = new \PDO("mysql:host=localhost;dbname=blog", 'root', 'vagrant', [
             <input type="submit" value="Запостить">
         </form>
     </div>
+
+        <form method="post">
+            Email:<br>
+            <input type="text" name="email"><br>
+            Пароль:<br>
+            <input type="password" name="pass"><br>
+            <input type="submit" value="Авторизоваться">
+        </form>
+
     <div>
 
         <?php
         // Начало метода добавления в базу данных ---------------------------------------------------------------
         if (!empty($_POST['title']) && !empty($_POST['body'])) {
 
-            $sql = $connection->prepare("INSERT INTO blog_data(`title`,`body`, `autor_id`) VALUES (:_title, :_body, 2)");
+            $sql = $connection->prepare(
+                "INSERT INTO blog_data(`title`,`body`, `autor_id`) VALUES (:_title, :_body, 2);");
             if ($sql->execute([':_title'=>$_POST['title'], ':_body'=>$_POST['body']]))
                 echo "Записано в базу";
             else
                 echo 'ошибка';
+        }
+        if (!empty($_POST['email']) && !empty($_POST['pass']))
+        {
+            $sql = $connection->prepare(" SELECT * FROM `users` WHERE `email`=:_email AND `password`=:_pass");
+            $sql->execute([':_email'=>$_POST['email'], ':_pass'=>md5($_POST['pass'])]);
+
+            if(!empty($sql->fetchAll()))
+            {echo "Авторизован".PHP_EOL;}
+            else
+            {echo "Неправильный логин или пароль".PHP_EOL;}
         }
         $row = $connection->query("SELECT `title`, `body`, `created` FROM blog_data ORDER BY `id` DESC");
         // конец метода добавления в базу данных ----------------------------------------------------------------
@@ -44,7 +64,7 @@ $connection = new \PDO("mysql:host=localhost;dbname=blog", 'root', 'vagrant', [
             </div>
             <br>
             <div style="position: relative">
-            <i style="font-size: 12; text-align: center; background-color: lightgrey"><?= $value['created']; ?></i>
+            <p style="font-size: 12; text-align: right"><?= $value['created']; ?></p>
             </div>
             <hr>
         <?php endforeach ?>
