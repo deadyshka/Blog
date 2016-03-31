@@ -29,14 +29,13 @@ if (!empty($_POST['email']) && !empty($_POST['pass']))
 
     if(!empty( $data=$sql->fetchAll()))
     {
-        echo "Авторизован".PHP_EOL;
         $_SESSION["autorisation"]=true;
         $_SESSION["user"]=$data[0]['email'];
-
     }
     else
-    {echo "Неправильный логин или пароль".PHP_EOL;
-        var_dump($sql->fetchAll());}
+    {
+        $_SESSION["wrong_user_alert"]=true;
+    }
 }
 //-------------------------------------------------------------------------------------------
 //Logout-------------------------------------------------------------------------------------
@@ -68,7 +67,11 @@ $row = $connection->query("SELECT `title`, `body`, `created` FROM blog_data ORDE
             <input type="password" name="pass"><br>
             <input type="submit" value="Авторизоваться">
         </form>
-
+        <?php if($_SESSION["wrong_user_alert"]):?>
+            <div style="color: red; position: absolute; right: 0">
+                Неверный пользователь или пароль
+            </div>
+        <?php $_SESSION["wrong_user_alert"]=false; endif; ?>
     <?php else: ?>
         <div style="position: absolute; right: 50; top: 10; width: 300;">
         Авторизован как:
