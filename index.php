@@ -1,9 +1,42 @@
 <?php
+session_start();
+
 $connection = new \PDO("mysql:host=localhost;dbname=blog", 'root', 'vagrant', [
     \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
     \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
     \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'
 ]);
+
+// Ввод в базу данных новости ---------------------------------------------------------------
+if (!empty($_POST['title']) && !empty($_POST['body'])) {
+
+    $sql = $connection->prepare(
+        "INSERT INTO blog_data(`title`,`body`, `autor_id`) VALUES (:_title, :_body, 2);");
+    if ($sql->execute([':_title'=>$_POST['title'], ':_body'=>$_POST['body']])) {
+        echo "Записано в базу";
+    }
+    else
+        echo 'ошибка';
+
+}
+//-------------------------------------------------------------------------------------------
+//Проверка авторизации пользователя ---------------------------------------------------------
+
+if (!empty($_POST['email']) && !empty($_POST['pass']))
+{
+    $sql = $connection->prepare(" SELECT * FROM `users` WHERE `email`=:_email AND `password`=:_pass");
+    $sql->execute([':_email'=>$_POST['email'], ':_pass'=>md5($_POST['pass'])]);
+
+    if(!empty($sql->fetchAll()))
+    {
+        echo "Авторизован".PHP_EOL;
+        $_SESSION["autorisation"]=true;
+    }
+    else
+    {echo "Неправильный логин или пароль".PHP_EOL;}
+}
+//-------------------------------------------------------------------------------------------
+$row = $connection->query("SELECT `title`, `body`, `created` FROM blog_data ORDER BY `id` DESC");
 ?>
 
 <html>
@@ -19,40 +52,21 @@ $connection = new \PDO("mysql:host=localhost;dbname=blog", 'root', 'vagrant', [
             <input type="submit" value="Запостить">
         </form>
     </div>
-
-        <form method="post">
+    <?php if(!$_SESSION["autorisation"]): ?>
+    <div style="position: fixed; top:0; right:0; background-color: white; z-index: 10">
+        <form method="post" >
             Email:<br>
             <input type="text" name="email"><br>
             Пароль:<br>
             <input type="password" name="pass"><br>
             <input type="submit" value="Авторизоваться">
         </form>
-
+    </div>
+    <?php endif; ?>
     <div>
 
         <?php
-        // Начало метода добавления в базу данных ---------------------------------------------------------------
-        if (!empty($_POST['title']) && !empty($_POST['body'])) {
 
-            $sql = $connection->prepare(
-                "INSERT INTO blog_data(`title`,`body`, `autor_id`) VALUES (:_title, :_body, 2);");
-            if ($sql->execute([':_title'=>$_POST['title'], ':_body'=>$_POST['body']]))
-                echo "Записано в базу";
-            else
-                echo 'ошибка';
-        }
-        if (!empty($_POST['email']) && !empty($_POST['pass']))
-        {
-            $sql = $connection->prepare(" SELECT * FROM `users` WHERE `email`=:_email AND `password`=:_pass");
-            $sql->execute([':_email'=>$_POST['email'], ':_pass'=>md5($_POST['pass'])]);
-
-            if(!empty($sql->fetchAll()))
-            {echo "Авторизован".PHP_EOL;}
-            else
-            {echo "Неправильный логин или пароль".PHP_EOL;}
-        }
-        $row = $connection->query("SELECT `title`, `body`, `created` FROM blog_data ORDER BY `id` DESC");
-        // конец метода добавления в базу данных ----------------------------------------------------------------
         foreach ($row as $item => $value):
             ?>
             <h1>
