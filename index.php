@@ -12,35 +12,30 @@ if (!empty($_POST['title']) && !empty($_POST['body'])) {
 
     $sql = $connection->prepare(
         "INSERT INTO blog_data(`title`,`body`, `autor_id`) VALUES (:_title, :_body, 2);");
-    if ($sql->execute([':_title'=>$_POST['title'], ':_body'=>$_POST['body']])) {
+    if ($sql->execute([':_title' => $_POST['title'], ':_body' => $_POST['body']])) {
         echo "Записано в базу";
-    }
-    else
+    } else
         echo 'ошибка';
 
 }
 //-------------------------------------------------------------------------------------------
 //Проверка авторизации пользователя ---------------------------------------------------------
 
-if (!empty($_POST['email']) && !empty($_POST['pass']))
-{
+if (!empty($_POST['email']) && !empty($_POST['pass'])) {
     $sql = $connection->prepare(" SELECT * FROM `users` WHERE `email`=:_email AND `password`=:_pass");
-    $sql->execute([':_email'=>$_POST['email'], ':_pass'=>md5($_POST['pass'])]);
+    $sql->execute([':_email' => $_POST['email'], ':_pass' => md5($_POST['pass'])]);
 
-    if(!empty( $data=$sql->fetchAll()))
-    {
-        $_SESSION["autorisation"]=true;
-        $_SESSION["user"]=$data[0]['email'];
-    }
-    else
-    {
-        $_SESSION["wrong_user_alert"]=true;
+    if (!empty($data = $sql->fetchAll())) {
+        $_SESSION["autorisation"] = true;
+        $_SESSION["user"] = $data[0]['email'];
+    } else {
+        $_SESSION["wrong_user_alert"] = true;
     }
 }
 //-------------------------------------------------------------------------------------------
 //Logout-------------------------------------------------------------------------------------
 if (!empty($_POST['btn_logout']))
-    $_SESSION["autorisation"]=false;
+    $_SESSION["autorisation"] = false;
 //-------------------------------------------------------------------------------------------
 $row = $connection->query("SELECT `title`, `body`, `created` FROM blog_data ORDER BY `id` DESC");
 ?>
@@ -59,30 +54,30 @@ $row = $connection->query("SELECT `title`, `body`, `created` FROM blog_data ORDE
         </form>
     </div>
     <div style="position: absolute; top:0; right:0; background-color: white; z-index: 10">
-    <?php if(!$_SESSION["autorisation"]): ?>
-        <form method="post" >
-            Email:<br>
-            <input type="text" name="email"><br>
-            Пароль:<br>
-            <input type="password" name="pass"><br>
-            <input type="submit" value="Авторизоваться">
-        </form>
-        <?php if($_SESSION["wrong_user_alert"]):?>
-            <div style="color: red; position: absolute; right: 0">
-                Неверный пользователь или пароль
+        <?php if (!$_SESSION["autorisation"]): ?>
+            <form method="post">
+                Email:<br>
+                <input type="text" name="email"><br>
+                Пароль:<br>
+                <input type="password" name="pass"><br>
+                <input type="submit" value="Авторизоваться">
+            </form>
+            <?php if ($_SESSION["wrong_user_alert"]): ?>
+                <div style="color: red; position: absolute; right: 0">
+                    Неверный пользователь или пароль
+                </div>
+                <?php $_SESSION["wrong_user_alert"] = false; endif; ?>
+        <?php else: ?>
+            <div style="position: absolute; right: 50; top: 10; width: 300;">
+                Авторизован как:
+                <?= $_SESSION["user"]; ?>
             </div>
-        <?php $_SESSION["wrong_user_alert"]=false; endif; ?>
-    <?php else: ?>
-        <div style="position: absolute; right: 50; top: 10; width: 300;">
-        Авторизован как:
-        <?= $_SESSION["user"]; ?>
-        </div>
-        <div style="position: absolute; right: 5; top: 5">
-        <form method="post" style="display: inline-block">
-            <input type="submit" name="btn_logout" value="Выйти">
-        </form>
-        </div>
-    <?php endif; ?>
+            <div style="position: absolute; right: 5; top: 5">
+                <form method="post" style="display: inline-block">
+                    <input type="submit" name="btn_logout" value="Выйти">
+                </form>
+            </div>
+        <?php endif; ?>
 
     </div>
     <div>
@@ -91,17 +86,11 @@ $row = $connection->query("SELECT `title`, `body`, `created` FROM blog_data ORDE
 
         foreach ($row as $item => $value):
             ?>
-            <h1>
-                <?= htmlspecialchars($value['title']); ?>
-            </h1>
+            <h1><?= htmlspecialchars($value['title']); ?></h1>
             <br>
-            <div>
-                <?= htmlspecialchars($value['body']); ?>
-            </div>
+            <div><?= htmlspecialchars($value['body']); ?></div>
             <br>
-            <div style="position: relative">
-            <p style="font-size: 12; text-align: right"><?= $value['created']; ?></p>
-            </div>
+            <div style="position: relative"><p style="font-size: 12; text-align: right"><?= $value['created']; ?></p></div>
             <hr>
         <?php endforeach ?>
     </div>
