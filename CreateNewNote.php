@@ -5,17 +5,17 @@ include 'lib.php';
 <head>
     <title>Добавить новую запись</title>
     <meta charset="utf-8">
-    <?php include 'head.php'; ?>
     <br>
 <?php
 session_start();
 autorisation();
+include 'head.php';
 $connection = db_plug();
-if (!empty($_POST['title']) && !empty($_POST['body'])) {
+if (!empty($_POST['title']) && !empty($_POST['body']) && valid_token($_POST['token'])) {
 
     $sql = $connection->prepare(
-        "INSERT INTO blog_data(`title`,`body`, `autor_id`) VALUES (:_title, :_body, 2);");
-    if ($sql->execute([':_title' => $_POST['title'], ':_body' => $_POST['body']])) {
+        "INSERT INTO blog_data(`title`,`body`, `autor_id`) VALUES (:_title, :_body, :_id);");
+    if ($sql->execute([':_title' => $_POST['title'], ':_body' => $_POST['body'], ':_id' => $_SESSION["id"]])) {
         header("Location:http://192.168.100.220/index.php");
     } else
         echo 'ошибка';
@@ -32,6 +32,7 @@ if ($_SESSION["autorisation"]):
             Тело<br>
             <textarea name="body" cols="100" rows="5"></textarea><br>
             <input type="submit" value="Запостить">
+            <input type="hidden" name="token" value="<?= get_token(); ?>">
         </form>
     </table>
 <?php else: ?>

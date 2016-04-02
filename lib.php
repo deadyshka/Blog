@@ -14,7 +14,7 @@ function db_plug()
 //Авторизация пользователя---------------------------------------------------------------------------------------------
 function autorisation()
 {
-     //Логика
+    //Логика
     $connection = db_plug();
     if (!empty($_POST['email']) && !empty($_POST['pass'])) {
         $sql = $connection->prepare(" SELECT * FROM `users` WHERE `email`=:_email AND `password`=:_pass");
@@ -23,42 +23,52 @@ function autorisation()
         if (!empty($data = $sql->fetchAll())) {
             $_SESSION["autorisation"] = true;
             $_SESSION["user"] = $data[0]['email'];
+            $_SESSION["id"]= $data[0]['id'];
+
         } else {
             $_SESSION["wrong_user_alert"] = true;
         }
-    }
-    if (!empty($_POST['btn_logout']))
-        $_SESSION["autorisation"] = false;
-    //Верстка
-    ?>
-    <div style="position: fixed; top:0; right:0; background-color: white; z-index: 10; opacity: 0.85">
-    <?php if (!$_SESSION["autorisation"]): ?>
-    <form method="post">
-        Email:<br>
-        <input type="text" name="email"><br>
-        Пароль:<br>
-        <input type="password" name="pass"><br>
-        <input type="submit" value="Авторизоваться">
-    </form>
-    <?php if ($_SESSION["wrong_user_alert"]): ?>
-        <div style="color: red; position: absolute; right: 0">
-            Неверный пользователь или пароль
-        </div>
-        <?php $_SESSION["wrong_user_alert"] = false; endif; ?>
-<?php else: ?>
-    <div style="position: absolute; right: 50px; top: 10px; width: 300px;">
-        Авторизован как:
-        <?= $_SESSION["user"]; ?>
-    </div>
-    <div style="position: absolute; right: 5px; top: 5px">
-        <form method="post" style="display: inline-block">
-            <input type="submit" name="btn_logout" value="Выйти">
-        </form>
-    </div>
 
-<?php endif; ?>
-    </div>
-<?php
+    }
+    if (!empty($_POST['btn_logout'])) {
+        $_SESSION["autorisation"] = false;
+        $_SESSION["id"]=null;
+        $_SESSION["user"]=null;
+        $_SESSION["wrong_user_alert"] = false;
+        header("Location:http://192.168.100.220/index.php");
+    }
+  
+   echo template('templates/autorisation.php', [
+        'autorisation' => $_SESSION["autorisation"],
+        'user' => $_SESSION["user"],
+        'id' => $_SESSION["id"],
+        'alert' => $_SESSION["wrong_user_alert"],
+        
+    ]);
+    
 }
-//-------------------------------------------------------------------------------------------------------------
+
+//Генерация токена-----------------------------------------------------------------------------------------------------
+function get_token() {
+    $token = uniqid();
+    $_SESSION['token'] = $token;
+    return $token;
+}
+//Проверка токена------------------------------------------------------------------------------------------------
+function valid_token($token) {
+    return !empty($_SESSION['token']) && $token == $_SESSION['token'];
+}
+//Шаблон---------------------------------------------------------------------------------------------------------
+function template($name, array $vars = [])
+{
+    if (!is_file($name)) {
+        throw new exception("Could not load template file {$name}");
+    }
+    ob_start();
+    extract($vars);
+    require($name);
+    $contents = ob_get_contents();
+    ob_end_clean();
+    return $contents;
+}
 ?>
