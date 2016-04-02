@@ -12,7 +12,7 @@ function db_plug()
 }
 
 //Авторизация пользователя---------------------------------------------------------------------------------------------
-function autorisation($email, $pass)
+function authorisation($email, $pass)
 {
     //Логика
     $connection = db_plug();
@@ -21,7 +21,7 @@ function autorisation($email, $pass)
         $sql->execute([':_email' => $_POST['email'], ':_pass' => md5($_POST['pass'])]);
 
         if (!empty($data = $sql->fetchAll())) {
-            $_SESSION["autorisation"] = true;
+            $_SESSION["authorisation"] = true;
             $_SESSION["user"] = $data[0]['email'];
             $_SESSION["id"]= $data[0]['id'];
 
@@ -30,17 +30,20 @@ function autorisation($email, $pass)
         }
 
     }
+    
 }
 //Логаут-----------------------------------------------------------------------------------------------------------
 function logout($logout)
 {
-    if (!empty($logout)) {
-    $_SESSION["autorisation"] = false;
+    if (!empty($logout))
+    {
+        $_SESSION["authorisation"] = false;
     $_SESSION["id"]=null;
     $_SESSION["user"]=null;
     $_SESSION["wrong_user_alert"] = false;
     header("Location:http://192.168.100.220/index.php");
-}
+    }
+
 }
 //Генерация токена-----------------------------------------------------------------------------------------------------
 function get_token() {

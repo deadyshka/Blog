@@ -1,15 +1,26 @@
 <?php
-include 'lib.php';
-?>
-<html>
-<head>
-    <title>Добавить новую запись</title>
-    <meta charset="utf-8">
-    <br>
-<?php
+require 'lib.php';
+
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+$connection = db_plug();
 session_start();
-autorisation();
-include 'head.php';
+
+if (isset($_POST['email'])&&isset($_POST['pass'])||isset($_POST['btn_logout']))
+{
+    authorisation($_POST['email'],$_POST['pass']);
+    if(isset($_POST['btn_logout']))
+        logout($_POST['btn_logout']);
+}
+
+echo template('templates/authorisation.php', [
+    'authorisation' => $_SESSION["authorisation"],
+    'user' => $_SESSION["user"],
+    'id' => $_SESSION["id"],
+    'alert' => $_SESSION["wrong_user_alert"],
+
+]);
+
 $connection = db_plug();
 if (!empty($_POST['title']) && !empty($_POST['body']) && valid_token($_POST['token'])) {
 
@@ -21,23 +32,10 @@ if (!empty($_POST['title']) && !empty($_POST['body']) && valid_token($_POST['tok
         echo 'ошибка';
 
 }
-?>
-<?php
-if ($_SESSION["autorisation"]):
-    ?>
-    <table>
-        <form method="post">
-            Заголовок<br>
-            <input type="text" name="title"><br>
-            Тело<br>
-            <textarea name="body" cols="100" rows="5"></textarea><br>
-            <input type="submit" value="Запостить">
-            <input type="hidden" name="token" value="<?= get_token(); ?>">
-        </form>
-    </table>
-<?php else: ?>
-    <div style="text-align: left">
-        <h1>Для добавления записи нужно авторизоватся</h1>
-    </div>
-<?php endif; ?>
+echo template('templates/tmp_CreateNewNote.php',[
+    'authorisation' => $_SESSION['authorisation'],
+    'token' => get_token()
+]);
+
+
 

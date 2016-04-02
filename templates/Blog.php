@@ -1,12 +1,11 @@
 <html>
-<head>
-    <title>Блог</title>
     <meta charset="utf-8">
+    <title>Блог</title>
     <?php require 'head.php'; ?>
     <br>
     <table align="center">
         <tr>
-            <?php if ($_SESSION["autorisation"]): ?>
+            <?php if ($_SESSION["authorisation"]): ?>
             <form method="post" action="CreateNewNote.php">
                 <input type="submit" name="btn_create_new_note" value="Создать запись">
             </form>
