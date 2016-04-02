@@ -1,6 +1,6 @@
 
 <head>
-<a href="index.php">
+<a href="../index.php">
     <table align="center"
     ">
     <tr>

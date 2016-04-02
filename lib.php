@@ -68,4 +68,3 @@ function template($name, array $vars = [])
     ob_end_clean();
     return $contents;
 }
-?>

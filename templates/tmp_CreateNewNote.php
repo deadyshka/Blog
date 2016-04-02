@@ -1,4 +1,4 @@
-<?php require './head.php'; ?>
+<?php require 'head.php'; ?>
     <meta charset="utf-8">
     <title>Добавить новую запись</title>
     <br>
