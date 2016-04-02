@@ -1,4 +1,3 @@
-
 <div style="position: fixed; top:0; right:0; background-color: white; z-index: 10; opacity: 0.85">
         <?php if (!$autorisation): ?>
     <form method="post">
