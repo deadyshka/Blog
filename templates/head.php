@@ -1,15 +1,23 @@
-
 <head>
+    <meta charset="utf-8">
+<style>
+    body {
+        /*background-image: url(http://192.168.100.220/templates/images/bg.jpg);*/
+        margin: 0;
+        padding: 0;
+    }
+</style>
 <a href="../index.php">
-    <table align="center"
-    ">
-    <tr>
-        <td colspan="2" width="1080" height="100" align="center"
-            style=" font-size: 50px;color: whitesmoke; text-shadow: black 0 0 2px">Личный бложек <?php if (!empty($_SESSION["user"])):  ?>
-            <?= $_SESSION["user"]; ?>
-            <?php endif; ?>
-        </td>
-    </tr>
-    </table>
+        <table align="center" cellpadding="0" cellspacing="0" border="0" width="100%" style="border-radius: 50px">
+            <tbody>
+        <tr>
+            <td colspan="2" width="100%" height="15" align="left"
+                style=" font-size: 15px;background:linear-gradient(to top,darkblue,deepskyblue);color: whitesmoke; text-shadow: black 0 0 2px"><?php if (!empty($title)):  ?>
+                <?= $title; ?>
+                <?php endif; ?>
+            </td>
+        </tr>
+            </tbody>
+        </table>
 </a>
 </head>

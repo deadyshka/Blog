@@ -10,7 +10,6 @@ function db_plug()
     ]);
     return $connection;
 }
-
 //Авторизация пользователя---------------------------------------------------------------------------------------------
 function authorisation($email, $pass)
 {
@@ -24,7 +23,7 @@ function authorisation($email, $pass)
             $_SESSION["authorisation"] = true;
             $_SESSION["user"] = $data[0]['email'];
             $_SESSION["id"]= $data[0]['id'];
-
+            $_SESSION["wrong_user_alert"] = false;
         } else {
             $_SESSION["wrong_user_alert"] = true;
         }
@@ -35,7 +34,7 @@ function authorisation($email, $pass)
 //Логаут-----------------------------------------------------------------------------------------------------------
 function logout($logout)
 {
-    if (!empty($logout))
+    if (!empty($logout)&&$logout)
     {
         $_SESSION["authorisation"] = false;
     $_SESSION["id"]=null;

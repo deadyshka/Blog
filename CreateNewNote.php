@@ -1,10 +1,14 @@
 <?php
 require 'lib.php';
-
+session_start();
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
+
+echo template('templates/head.php',[
+    'title'=>"Оставить сообщение"
+]);
+
 $connection = db_plug();
-session_start();
 
 if (isset($_POST['email'])&&isset($_POST['pass'])||isset($_POST['btn_logout']))
 {
@@ -27,7 +31,7 @@ if (!empty($_POST['title']) && !empty($_POST['body']) && valid_token($_POST['tok
     $sql = $connection->prepare(
         "INSERT INTO blog_data(`title`,`body`, `autor_id`) VALUES (:_title, :_body, :_id);");
     if ($sql->execute([':_title' => $_POST['title'], ':_body' => $_POST['body'], ':_id' => $_SESSION["id"]])) {
-        header("Location:http://192.168.100.220/index.php");
+        header("Location:http://192.168.100.220/");
     } else
         echo 'ошибка';
 
