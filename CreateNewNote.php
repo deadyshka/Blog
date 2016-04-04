@@ -30,12 +30,13 @@ if (!empty($_POST['title']) && !empty($_POST['body']) && valid_token($_POST['tok
 
     $sql = $connection->prepare(
         "INSERT INTO blog_data(`title`,`body`, `autor_id`) VALUES (:_title, :_body, :_id);");
-    if ($sql->execute([':_title' => $_POST['title'], ':_body' => $_POST['body'], ':_id' => $_SESSION["id"]])) {
+    if ($sql->execute([':_title' => $_POST['title'], ':_body' => $_POST['body'], ':_id' => $_SESSION['id']])) {
         header("Location:http://192.168.100.220/");
     } else
         echo 'ошибка';
 
 }
+
 echo template('templates/tmp_CreateNewNote.php',[
     'authorisation' => $_SESSION['authorisation'],
     'token' => get_token()

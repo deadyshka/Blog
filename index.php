@@ -27,7 +27,7 @@ if (isset($_SESSION["authorisation"])&&$_SESSION["authorisation"]) {
     if (isset($_POST['btn_logout']))
         logout($_POST['btn_logout']);
 
-        $row = $connection->prepare("SELECT `title`, `body`, `created` FROM blog_data WHERE `autor_id`=:_id ORDER BY `id` DESC ");
+        $row = $connection->prepare("SELECT * FROM blog_data WHERE `autor_id`=:_id ORDER BY `id` DESC ");
         $row->execute([':_id' => $_SESSION["id"]]);
 
     echo template('templates/Blog.php', [

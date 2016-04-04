@@ -11,9 +11,9 @@
                 <input type="hidden" name="token" value="<?= $token ?>">
             </form>
         </table>
-    <?php else:  ?>
+    <?php else: ?>
     <div style="text-align: left">
-        <h1>Для добавления записи нужно авторизоватся</h1>
+        <h1>Для добавления новости нужно авторизоватся</h1>
     </div>
-    <?php endif; ?>
+   <?php endif; ?>
 
