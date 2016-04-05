@@ -4,24 +4,24 @@ session_start();
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-echo template('templates/head.php',[
-    'title'=>"Оставить сообщение"
+echo template('templates/head.php', [
+    'title' => "Оставить сообщение",
 ]);
 
 $connection = db_plug();
 
-if (isset($_POST['email'])&&isset($_POST['pass'])||isset($_POST['btn_logout']))
-{
-    authorisation($_POST['email'],$_POST['pass']);
-    if(isset($_POST['btn_logout']))
-        logout($_POST['btn_logout']);
+if (isset($_POST['email']) && isset($_POST['pass']) || isset($_POST['btn_logout'])) {
+    authorisation($_POST['email'], $_POST['pass']);
+    if (isset($_POST['btn_logout'])) {
+        logout();
+    }
 }
 
 echo template('templates/authorisation.php', [
-    'authorisation' => $_SESSION["authorisation"],
-    'user' => $_SESSION["user"],
-    'id' => $_SESSION["id"],
-    'alert' => $_SESSION["wrong_user_alert"],
+    'authorisation' => $_SESSION['authorisation'],
+    'user'          => $_SESSION['user'],
+    'id'            => $_SESSION['id'],
+    'alert'         => $_SESSION['wrong_user_alert'],
 
 ]);
 
@@ -37,9 +37,9 @@ if (!empty($_POST['title']) && !empty($_POST['body']) && valid_token($_POST['tok
 
 }
 
-echo template('templates/tmp_CreateNewNote.php',[
+echo template('templates/tmp_CreateNewNote.php', [
     'authorisation' => $_SESSION['authorisation'],
-    'token' => get_token()
+    'token'         => get_token(),
 ]);
 
 

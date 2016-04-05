@@ -16,7 +16,8 @@
             </div>
             <?php $alert = false; endif; ?>
     <?php else: ?>
-        <div style="position: absolute; right: 50px; top: 0px; width: 400px; color: whitesmoke; text-shadow: black 0 0 2px">
+        <div
+            style="position: absolute; right: 50px; top: 0px; width: 400px; color: whitesmoke; text-shadow: black 0 0 2px">
             Авторизован как:
             <?= $user . " Ваш id  : " . $id; ?>
         </div>

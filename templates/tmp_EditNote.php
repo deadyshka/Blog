@@ -1,6 +1,6 @@
 <title>Отредактировать новость</title>
 <br>
-<?php if($authorisation): ?>
+<?php if ($authorisation): ?>
     <table>
         <form method="post">
             Заголовок<br>
