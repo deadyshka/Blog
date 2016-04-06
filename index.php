@@ -43,33 +43,37 @@ switch ($action) {
         break;
 
     case 'CreateNewNote':
+        if (isset($_SESSION['authorisation']) && $_SESSION['authorisation']) {
+            echo template('templates/head.php', [
+                'title' => "Оставить сообщение",
+            ]);
 
-        echo template('templates/head.php', [
-            'title' => "Оставить сообщение",
-        ]);
+            echo template('templates/authorisation.php', [
+                'authorisation' => $_SESSION['authorisation'],
+                'user'          => $_SESSION['user'],
+                'id'            => $_SESSION['id'],
+                'alert'         => $_SESSION['wrong_user_alert'],
+                'site_url'      => 'http://192.168.100.220/',
 
-        echo template('templates/authorisation.php', [
-            'authorisation' => $_SESSION['authorisation'],
-            'user'          => $_SESSION['user'],
-            'id'            => $_SESSION['id'],
-            'alert'         => $_SESSION['wrong_user_alert'],
+            ]);
 
-        ]);
+            if (!empty($_POST['title']) && !empty($_POST['body']) && valid_token($_POST['token'])) {
+                $sql = $connection->prepare(
+                    "INSERT INTO blog_data(`title`,`body`, `autor_id`) VALUES (:_title, :_body, :_id);");
+                if ($sql->execute([':_title' => $_POST['title'], ':_body' => $_POST['body'], ':_id' => $_SESSION['id']])) {
+                    header("Location:http://192.168.100.220/");
+                } else
+                    echo 'ошибка';
 
-        if (!empty($_POST['title']) && !empty($_POST['body']) && valid_token($_POST['token'])) {
-            $sql = $connection->prepare(
-                "INSERT INTO blog_data(`title`,`body`, `autor_id`) VALUES (:_title, :_body, :_id);");
-            if ($sql->execute([':_title' => $_POST['title'], ':_body' => $_POST['body'], ':_id' => $_SESSION['id']])) {
-                header("Location:http://192.168.100.220/");
-            } else
-                echo 'ошибка';
+            }
 
+            echo template('templates/tmp_CreateNewNote.php', [
+                'authorisation' => $_SESSION['authorisation'],
+                'token'         => get_token(),
+            ]);
+        } else {
+            header("Location:http://192.168.100.220/");
         }
-
-        echo template('templates/tmp_CreateNewNote.php', [
-            'authorisation' => $_SESSION['authorisation'],
-            'token'         => get_token(),
-        ]);
         break;
 
     case 'login':
@@ -93,10 +97,16 @@ switch ($action) {
         break;
 
     case 'logout':
+
         logout();
         break;
 
     case 'registration':
+
+        echo template('templates/head.php', [
+            'title' => "Регистрация",
+        ]);
+
         if (!empty($_POST["email"]) && !empty($_POST["pass"])) {
             $sql = $connection->prepare(" SELECT * FROM `users` WHERE `email`=:_email");
             $sql->execute([':_email' => $_POST['email']]);
@@ -116,12 +126,19 @@ switch ($action) {
         break;
 
     case 'EditNote':
-
-        echo template('templates/head.php', [
-            'title' => "Отредактировать новость",
-        ]);
-
         if (!empty($_POST['btn_edit_note']) && !empty($_POST['note_id'])) {
+            echo template('templates/head.php', [
+                'title' => "Отредактировать новость",
+            ]);
+
+            echo template('templates/authorisation.php', [
+                'authorisation' => $_SESSION['authorisation'],
+                'user'          => $_SESSION['user'],
+                'id'            => $_SESSION['id'],
+                'alert'         => $_SESSION['wrong_user_alert'],
+                'site_url'      => 'http://192.168.100.220/',
+
+            ]);
             $sql = $connection->prepare(
                 "SELECT `title`, `body` FROM blog_data WHERE `id`=:_id");
             if ($sql->execute([':_id' => $_POST['note_id']])) {
@@ -136,28 +153,33 @@ switch ($action) {
                 ]);
             } else
                 echo 'ошибка';
+        } else {
+            header("Location:http://192.168.100.220/");
         }
         break;
 
-    case 'EditOk':
+    case 'EditApply':
         if (!empty($_POST['Edit']) && !empty($_POST['note_id']) && !empty($_POST['token']) && ($_SESSION['token'] == $_POST['token'])) {
-            var_dump($_POST['note_id']);
-            $sql = $connection->prepare(
-                "UPDATE blog_data SET `title`=:_title, `body`=:_body, `updated`= NOW() WHERE `id`=:_id;");
-            if ($sql->execute([':_title' => $_POST['title'],
-                               ':_body'  => $_POST['body'],
-                               ':_id'    => $_POST['note_id']])
-            ) {
-                header("Location:http://192.168.100.220/");
-            }
-        }
+                var_dump($_POST['note_id']);
+                $sql = $connection->prepare(
+                    "UPDATE blog_data SET `title`=:_title, `body`=:_body, `updated`= NOW() WHERE `id`=:_id;");
+                if ($sql->execute([':_title' => $_POST['title'],
+                                   ':_body'  => $_POST['body'],
+                                   ':_id'    => $_POST['note_id']])
+                ) {
+                    header("Location:http://192.168.100.220/");
+                }
 
-        if (!empty($_POST['Delete']) && !empty($_POST['note_id']) && $_SESSION['token'] == $_POST['token']) {
-            $sql = $connection->prepare(
-                "UPDATE blog_data  SET `deleted`=TRUE WHERE `id`=:_id;");
-            if ($sql->execute([':_id' => $_POST['note_id']])) {
-                header("Location:http://192.168.100.220/");
+
+            if (!empty($_POST['Delete']) && !empty($_POST['note_id']) && $_SESSION['token'] == $_POST['token']) {
+                $sql = $connection->prepare(
+                    "UPDATE blog_data  SET `deleted`=TRUE WHERE `id`=:_id;");
+                if ($sql->execute([':_id' => $_POST['note_id']])) {
+                    header("Location:http://192.168.100.220/");
+                }
             }
+        } else {
+            header("Location:http://192.168.100.220/");
         }
         break;
 }
