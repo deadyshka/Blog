@@ -1,23 +1,25 @@
-<head>
-    <meta charset="utf-8">
-    <style>
-        body {
-            /*background-image: url(http://192.168.100.220/templates/images/bg.jpg);*/
-            margin: 0;
-            padding: 0;
-        }
-    </style>
-    <a href="../index.php">
-        <table align="center" cellpadding="0" cellspacing="0" border="0" width="100%" style="border-radius: 50px">
-            <tbody>
-            <tr>
-                <td colspan="2" width="100%" height="15" align="left"
-                    style=" font-size: 15px;background:linear-gradient(to top,darkblue,deepskyblue);color: whitesmoke; text-shadow: black 0 0 2px"><?php if (!empty($title)): ?>
-                        <?= $title; ?>
-                    <?php endif; ?>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </a>
-</head>
+<!DOCTYPE html>
+<html lang="en">
+
+<meta charset="utf-8">
+<link rel="stylesheet" href="http://192.168.100.220/templates/bootstrap-3.3.6-dist/css/bootstrap.min.css" type="text/css">
+<link rel="stylesheet" href="http://192.168.100.220/templates/bootstrap-3.3.6-dist/css/bootstrap-theme.min.css" type="text/css">
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand"><?= $title; ?></a>
+        </div>
+        <div class="navbar-collapse collapse" style="height: 1px;">
+            <ul class="nav navbar-nav">
+                <li><a href="http://192.168.100.220/">Home</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</div>
+</html>

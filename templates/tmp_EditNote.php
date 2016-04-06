@@ -1,8 +1,10 @@
+<!DOCTYPE html>
+<html lang="en">
 <title>Отредактировать новость</title>
 <br>
 <?php if ($authorisation): ?>
-    <table>
-        <form method="post">
+
+        <form method="post" style="position: absolute; top: 100px; left: 20px">
             Заголовок<br>
             <input type="text" name="title" value="<?= $title ?>"><br>
             Тело<br>
@@ -12,9 +14,10 @@
             <input type="hidden" name="token" value="<?= $token ?>">
             <input type="hidden" name="note_id" value="<?= $note_id ?>">
         </form>
-    </table>
+
 <?php else: ?>
     <div style="text-align: left">
         <h1>Для редактирования нужно авторизоватся</h1>
     </div>
 <?php endif; ?>
+</html>

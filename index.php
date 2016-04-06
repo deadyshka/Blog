@@ -37,14 +37,14 @@ if (isset($_SESSION['authorisation']) && $_SESSION['authorisation']) {
 
 } else {
     echo template('templates/head.php', [
-        'title' => "Стена",
+        'title' => "Войти",
     ]);
 
     echo template('templates/authorisation.php', [
         'authorisation' => false,
         'user'          => null,
         'id'            => null,
-        'alert'         => $_SESSION['wrong_user_alert'],
+        'alert'         => isset($_SESSION['wrong_user_alert']) ? $_SESSION['wrong_user_alert'] : false,
     ]);
 
 
