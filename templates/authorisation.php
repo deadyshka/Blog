@@ -4,7 +4,7 @@
 
     <?php if (!$authorisation): ?>
 
-        <form class="form-horizontal" method="post" style="position: absolute; top: 55px; right: 50px; width: 300px">
+        <form class="form-horizontal" method="post" action="<?= $site_url ?>?action=login" style="position: absolute; top: 55px; right: 50px; width: 300px">
             <div class="form-group">
                 <label for="inputEmail3" class="col-sm-2 control-label">Почта</label>
                 <div class="col-sm-10">
@@ -34,19 +34,18 @@
         </div>
         </form>
         <?php if ($alert): ?>
-            <div style="color: red; position: absolute; right: 0">
+            <div style="color: red; position: absolute; top: 200px; right: 40px; width: 250px">
                 Неверный пользователь или пароль
             </div>
             <?php
-            $alert = false; endif;
+            $_SESSION['wrong_user_alert'] = false; endif;
     else: ?>
         <div style="position: absolute; top: 50px; right: 50px; width: 300px">
-<!--            style="position: absolute; right: 50px; top: 0px; width: 400px; color: whitesmoke; text-shadow: black 0 0 2px">-->
             Авторизован как:
             <?= $user . " Ваш id  : " . $id; ?>
         </div>
         <div style="position: absolute; right: 0; top: 50px; color: blue">
-            <form method="post" >
+            <form method="post" action="<?= $site_url ?>?action=logout">
                 <input type="submit" name="btn_logout" class="btn btn-default btn-xs" value="Выйти"
                        style="font-size: 11px ">
             </form>

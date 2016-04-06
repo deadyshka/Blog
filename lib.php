@@ -26,9 +26,10 @@ function authorisation($email, $pass)
             $_SESSION['authorisation'] = true;
             $_SESSION['user'] = $data[0]['email'];
             $_SESSION['id'] = $data[0]['id'];
-            $_SESSION['wrong_user_alert'] = false;
+            return true;
         } else {
             $_SESSION['wrong_user_alert'] = true;
+            return false;
         }
     }
 }
