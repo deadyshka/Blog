@@ -43,6 +43,7 @@ switch ($action) {
         break;
 
     case 'CreateNewNote':
+
         if (isset($_SESSION['authorisation']) && $_SESSION['authorisation']) {
             echo template('templates/head.php', [
                 'title' => "Оставить сообщение",
@@ -89,6 +90,7 @@ switch ($action) {
             'alert'         => isset($_SESSION['wrong_user_alert']) ? $_SESSION['wrong_user_alert'] : false,
             'site_url'      => 'http://192.168.100.220/',
         ]);
+
         if (!empty($_POST['email']) && !empty($_POST['pass'])) {
             if (authorisation($_POST['email'], $_POST['pass'])) {
                 header("Location:http://192.168.100.220/");
@@ -126,6 +128,7 @@ switch ($action) {
         break;
 
     case 'EditNote':
+
         if (!empty($_POST['btn_edit_note']) && !empty($_POST['note_id'])) {
             echo template('templates/head.php', [
                 'title' => "Отредактировать новость",
@@ -159,16 +162,17 @@ switch ($action) {
         break;
 
     case 'EditApply':
+
         if (!empty($_POST['Edit']) && !empty($_POST['note_id']) && !empty($_POST['token']) && ($_SESSION['token'] == $_POST['token'])) {
-                var_dump($_POST['note_id']);
-                $sql = $connection->prepare(
-                    "UPDATE blog_data SET `title`=:_title, `body`=:_body, `updated`= NOW() WHERE `id`=:_id;");
-                if ($sql->execute([':_title' => $_POST['title'],
-                                   ':_body'  => $_POST['body'],
-                                   ':_id'    => $_POST['note_id']])
-                ) {
-                    header("Location:http://192.168.100.220/");
-                }
+            var_dump($_POST['note_id']);
+            $sql = $connection->prepare(
+                "UPDATE blog_data SET `title`=:_title, `body`=:_body, `updated`= NOW() WHERE `id`=:_id;");
+            if ($sql->execute([':_title' => $_POST['title'],
+                               ':_body'  => $_POST['body'],
+                               ':_id'    => $_POST['note_id']])
+            ) {
+                header("Location:http://192.168.100.220/");
+            }
 
 
             if (!empty($_POST['Delete']) && !empty($_POST['note_id']) && $_SESSION['token'] == $_POST['token']) {
