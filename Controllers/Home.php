@@ -28,11 +28,7 @@ class Home extends Controller
         $MessPerPage = 5;
         $count = Lib\GetNewsCount(Lib\connection(), $_SESSION['id']);
         $pages = floor($count / $MessPerPage);
-        /*
-         * for($i=0;$i<$count;$i+=10){
-            $row = Lib\GetNews(Lib\connection(), i, 10);
-        }
-        */
+
         if (!empty($_GET['page'])) {
             switch ($_GET['page']) {
                 case 'PrevPage':
