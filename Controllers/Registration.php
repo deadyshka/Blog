@@ -1,4 +1,7 @@
-<?php
+<?php namespace Epic\Controllers;
+
+use Epic\Lib;
+
 
 class Registration extends Controller
 {
@@ -9,14 +12,14 @@ class Registration extends Controller
     
     public function postRegistration()
     {
-        echo template('templates/head.php', [
+        echo Lib\template('templates/head.php', [
             'title' => "Регистрация",
         ]);
 
         if (!empty($_POST["email"]) && !empty($_POST["pass"])) {
-            Registration(connection());
+            Lib\Registration(Lib\connection());
         }
-        echo template('templates/tmp_Registration.php', [
+        echo Lib\template('templates/tmp_Registration.php', [
             'authorisation' => false,
             'alert'         => false,
         ]);

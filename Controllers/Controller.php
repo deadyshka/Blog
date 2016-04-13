@@ -1,4 +1,4 @@
-<?php
+<?php namespace Epic\Controllers;
 
 abstract class Controller{
     

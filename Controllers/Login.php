@@ -1,15 +1,17 @@
-<?php
+<?php namespace Epic\Controllers;
+
+use Epic\Lib;
 
 class Login extends Controller
 {
 
 public function getLogin()
     {
-        echo template('templates/head.php', [
+        echo Lib\template('templates/head.php', [
             'title' => "Войти",
         ]);
-        
-        echo template('templates/authorisation.php', [
+
+        echo Lib\template('templates/authorisation.php', [
             'authorisation' => false,
             'user'          => null,
             'id'            => null,
@@ -21,16 +23,16 @@ public function getLogin()
 
     public function postLogin()
     {
-        echo template('templates/head.php', [
+        echo Lib\template('templates/head.php', [
             'title' => "Войти",
         ]);
         if (!empty($_POST['email']) && !empty($_POST['pass'])) {
-            if (authorisation(connection() ,$_POST['email'], $_POST['pass'])) {
+            if (Lib\authorisation(Lib\connection(), $_POST['email'], $_POST['pass'])) {
                 header("Location:http://192.168.100.220/");
             }
         }
         if (!empty($_POST['btn_logout'])){
-            logout();
+            Lib\logout();
         }
     }
 }

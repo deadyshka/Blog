@@ -1,6 +1,7 @@
-<?php
+<?php namespace Epic\Controllers;
 
-;
+
+use Epic\Lib;
 
 class CreateNewNote extends Controller
 {
@@ -15,11 +16,11 @@ class CreateNewNote extends Controller
         {
             header("Location:http://192.168.100.220/?action=login");
         }
-        echo template('templates/head.php', [
+        echo Lib\template('templates/head.php', [
             'title' => "Оставить сообщение",
         ]);
 
-        echo template('templates/authorisation.php', [
+        echo Lib\template('templates/authorisation.php', [
             'authorisation' => $_SESSION['authorisation'],
             'user'          => $_SESSION['user'],
             'id'            => $_SESSION['id'],
@@ -27,12 +28,12 @@ class CreateNewNote extends Controller
             'site_url'      => 'http://192.168.100.220/',
 
         ]);
-        
-        CreateNewNote(connection());
 
-        echo template('templates/tmp_CreateNewNote.php', [
+        Lib\CreateNewNote(Lib\connection());
+
+        echo Lib\template('templates/tmp_CreateNewNote.php', [
             'authorisation' => $_SESSION['authorisation'],
-            'token'         => get_token(),
+            'token'         => Lib\get_token(),
         ]);
     }
 }

@@ -1,4 +1,7 @@
-<?php
+<?php namespace Epic\Controllers;
+
+use Epic\Lib;
+
 
 class EditNote extends Controller
 {
@@ -10,11 +13,11 @@ class EditNote extends Controller
     {
 
         if (!empty($_POST['btn_edit_note']) && !empty($_POST['note_id'])) {
-            echo template('templates/head.php', [
+            echo Lib\template('templates/head.php', [
                 'title' => "Отредактировать новость",
             ]);
 
-            echo template('templates/authorisation.php', [
+            echo Lib\template('templates/authorisation.php', [
                 'authorisation' => $_SESSION['authorisation'],
                 'user'          => $_SESSION['user'],
                 'id'            => $_SESSION['id'],
@@ -23,13 +26,13 @@ class EditNote extends Controller
 
             ]);
 
-            $data = GetNew(connection());
-            echo template('templates/tmp_EditNote.php', [
+            $data = Lib\GetNew(Lib\connection());
+            echo Lib\template('templates/tmp_EditNote.php', [
                 'authorisation' => $_SESSION['authorisation'],
                 'title'         => $data['title'],
                 'body'          => $data['body'],
                 'note_id'       => $_POST['note_id'],
-                'token'         => get_token(),
+                'token'         => Lib\get_token(),
                 'site_url'      => 'http://192.168.100.220/',
             ]);
         } else {
@@ -38,11 +41,11 @@ class EditNote extends Controller
         }
 
         if (!empty($_POST['Edit']) && !empty($_POST['note_id']) && !empty($_POST['token']) && ($_SESSION['token'] == $_POST['token'])) {
-            ApplyEditNew(connection());
+            Lib\ApplyEditNew(Lib\connection());
         }
 
             if (!empty($_POST['Delete']) && !empty($_POST['note_id']) && $_SESSION['token'] == $_POST['token']) {
-                DeleteNew(connection());
+                Lib\DeleteNew(Lib\connection());
             }
         
     }

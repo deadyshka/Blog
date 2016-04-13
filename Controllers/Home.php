@@ -1,6 +1,7 @@
-<?php
+<?php namespace Epic\Controllers;
 
-require 'Controller.php';
+
+use Epic\Lib;
 
 class Home extends Controller
 {
@@ -11,11 +12,11 @@ class Home extends Controller
             header("Location:http://192.168.100.220/?action=login");
         }
 
-        echo template('templates/head.php', [
+        echo Lib\template('templates/head.php', [
             'title' => "Это ваш личный блог! {$_SESSION['user']}",
         ]);
 
-        echo template('templates/authorisation.php', [
+        echo Lib\template('templates/authorisation.php', [
             'authorisation' => $_SESSION["authorisation"],
             'user'          => $_SESSION["user"],
             'id'            => $_SESSION["id"],
@@ -23,9 +24,9 @@ class Home extends Controller
             'site_url'      => 'http://192.168.100.220/',
         ]);
 
-        $row = GetNews(connection());
+        $row = Lib\GetNews(Lib\connection());
 
-        echo template('templates/Blog.php', [
+        echo Lib\template('templates/Blog.php', [
             'authorisation' => $_SESSION["authorisation"],
             'data'          => $row,
             'site_url'      => 'http://192.168.100.220/',

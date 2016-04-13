@@ -1,10 +1,6 @@
-<?php
+<?php namespace Epic\Lib;
 
-require 'Controllers/Home.php';
-require 'Controllers/Login.php';
-require 'Controllers/CreateNewNote.php';
-require 'Controllers/EditNote.php';
-require 'Controllers/Registration.php';
+
 //Подключение БД--------------------------------------------------------------------------------------------
 function connection(array $config = [])
 {
