@@ -10,7 +10,7 @@
                 <div class="col-sm-10">
                     <input type="email" name="email" class="form-control" id="inputEmail3" placeholder="Email">
                 </div>
-            </div>
+</div>
             <div class="form-group">
                 <label for="inputPassword3" class="col-sm-2 control-label">Пароль</label>
                 <div class="col-sm-10">
@@ -25,7 +25,7 @@
             </div>
 
         </form>
-        <form action="Registration.php" class="form-horizontal" method="post" style="position: absolute; top: 153px; right:  0px; width: 200px">
+        <form action="<?= $site_url ?>?action=registration" class="form-horizontal" method="post" style="position: absolute; top: 153px; right:  0px; width: 200px">
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 <input type="submit" name="reg" value="Зарегистрироваться" class="btn btn-default">
@@ -45,7 +45,7 @@
             <?= $user . " Ваш id  : " . $id; ?>
         </div>
         <div style="position: absolute; right: 0; top: 50px; color: blue">
-            <form method="post" action="<?= $site_url ?>?action=logout">
+            <form method="post" action="<?= $site_url ?>?action=login">
                 <input type="submit" name="btn_logout" class="btn btn-default btn-xs" value="Выйти"
                        style="font-size: 11px ">
             </form>
