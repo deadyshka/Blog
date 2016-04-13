@@ -1,10 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
 
 <link rel="stylesheet" href="http://192.168.100.220/templates/css/blog.css"/>
 <?php if ($_SESSION["authorisation"]): ?>
-    <form method="post" action="<?= $site_url ?>?action=CreateNewNote" style="position: absolute; top: 55px; left: 30px">
-        <input type="submit" class="btn btn-success" name="btn_create_new_note" value="Поделится новостью" >
+    <form method="post" action="<?= $site_url ?>?action=CreateNewNote" ">
+    <input type="submit" class="btn btn-success" name="btn_create_new_note"
+           style="position: absolute; top: 55px; left: 30px" value="Поделится новостью">
+    </form>
+    <form method="get">
+        <ul class="pagination" style="position: absolute; left: 200px; top: 35px">
+            <li><a href="?page=PrevPage">&laquo;</a></li>
+            <li>Всего страниц:<?= $pages ?> Текущая страница: <?= $page ?></li>
+            <li><a href="?page=NextPage">&raquo;</a></li>
+        </ul>
     </form>
     <table align="center" cellpadding="0" cellspacing="0" border="0" width="95%"
            style="position: absolute; top: 100px; left: 30px">
@@ -13,11 +20,7 @@
             <td width="100%" align="top">
                 <table align="center" cellpadding="0" cellspacing="0" border="0" width="100%" class="lenta" style=" ">
                     <tbody>
-                    <?php
-
-                    while ($output = $data->fetch()):
-                        if (!$output['deleted']):
-                            ?>
+                    <?php while ($output = $data->fetch()): ?>
                             <tr>
                                 <td class="note_head"><?= htmlspecialchars($output['title']); ?></td>
                             </tr>
@@ -36,7 +39,10 @@
                                     Создана: <?= $output['created']; ?>
                                 </td>
                             </tr>
-                        <?php endif; endwhile; ?>
+                    <?php endwhile; ?>
+
+
+
                     </tbody>
                 </table>
             </td>
@@ -45,5 +51,6 @@
 
         </tbody>
     </table>
+
 <?php endif; ?>
 

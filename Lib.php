@@ -1,7 +1,10 @@
 <?php namespace Epic\Lib;
 
-
-//Подключение БД--------------------------------------------------------------------------------------------
+/**
+ * Подключение БД
+ * @param array $config
+ * @return \PDO
+ */
 function connection(array $config = [])
 {
     static $connection;
@@ -16,7 +19,13 @@ function connection(array $config = [])
 
 }
 
-//Авторизация пользователя---------------------------------------------------------------------------------------------
+/**
+ * Авторизация
+ * @param \PDO|null $connection
+ * @param null $email
+ * @param null $pass
+ * @return bool
+ */
 function authorisation(\PDO $connection = null, $email= null, $pass = null)
 {
 
@@ -36,8 +45,8 @@ function authorisation(\PDO $connection = null, $email= null, $pass = null)
         }
     }
 }
-
 /**
+ * Разлогинится
  * @param $logout
  */
 function logout()
@@ -47,7 +56,10 @@ function logout()
     die();
 }
 
-//Генерация токена-----------------------------------------------------------------------------------------------------
+/**
+ * Сгенерировать токен
+ * @return mixed
+ */
 function get_token()
 {
     $token = uniqid();
@@ -56,13 +68,22 @@ function get_token()
     return $token;
 }
 
-//Проверка токена------------------------------------------------------------------------------------------------
+/**
+ * Проверка токена
+ * @param $token
+ * @return bool
+ */
 function valid_token($token)
 {
     return !empty($_SESSION['token']) && $token == $_SESSION['token'];
 }
 
-//Шаблон---------------------------------------------------------------------------------------------------------
+/**
+ * Нарисовать шаблон
+ * @param $name
+ * @param array $vars
+ * @return mixed
+ */
 function template($name, array $vars = [])
 {
     if (!is_file($name)) {
@@ -76,30 +97,23 @@ function template($name, array $vars = [])
 
     return $contents;
 }
-//Route
-function routes($uri, $routes)
-{
-    $request = parse_url($uri);
-    $params = [];
-    if (!empty($request['query'])) {
-        parse_str($request['query'], $params);
-    }
-    $action = empty($params['action']) ? 'Home' : $params['action'];
-    if (isset($routes[$action])) {
-        $controller = new $routes[$action]();
-        return $controller->handle($action, empty($_SERVER['REQUEST_METHOD']) ? 'get' : $_SERVER['REQUEST_METHOD'], $params);
-    }
 
-    return false;
-}
-//Get news
-function GetNews(\PDO $connection)
+/**
+ * Получить все новости
+ * @param \PDO $connection
+ * @return \PDOStatement
+ */
+function GetNews(\PDO $connection, $number, $count)
 {
-    $row = $connection->prepare("SELECT * FROM blog_data WHERE `autor_id`=:_id ORDER BY `id` DESC ");
+    $row = $connection->prepare("SELECT * FROM blog_data WHERE `autor_id`=:_id AND `deleted`=FALSE ORDER BY `id` DESC LIMIT {$number},{$count}");
     $row->execute([':_id' => $_SESSION["id"]]);
     return $row;
 }
-//Create New Note
+
+/**
+ * Создать новость
+ * @param \PDO $connection
+ */
 function CreateNewNote(\PDO $connection)
 {
     if (!empty($_POST['title']) && !empty($_POST['body']) && valid_token($_POST['token'])) {
@@ -111,16 +125,26 @@ function CreateNewNote(\PDO $connection)
             echo 'ошибка';
     }
 }
-//GetNew
+
+/**
+ * Получить новость по id
+ * @param \PDO $connection
+ * @return mixed
+ */
 function GetNew(\PDO $connection)
 {
     $sql = $connection->prepare(
         "SELECT `title`, `body` FROM blog_data WHERE `id`=:_id");
-    if ($sql->execute([':_id' => $_POST['note_id']])) {
-        return $sql->fetch();
-    }
+    $sql->execute([':_id' => $_POST['note_id']]);
+
+    return $sql->fetch();
+
 }
-//EditApply
+
+/**
+ * Применить изменения в записи
+ * @param \PDO $connection
+ */
 function ApplyEditNew(\PDO $connection)
 {
     $sql = $connection->prepare(
@@ -132,7 +156,11 @@ function ApplyEditNew(\PDO $connection)
         header("Location:http://192.168.100.220/");
     }
 }
-//deleteNew
+
+/**
+ * Удалить новость
+ * @param \PDO $connection
+ */
 function DeleteNew (\PDO $connection)
 {
     $sql = $connection->prepare(
@@ -141,7 +169,11 @@ function DeleteNew (\PDO $connection)
         header("Location:http://192.168.100.220/");
     }
 }
-//registration
+
+/**
+ * Регистрация
+ * @param \PDO $connection
+ */
 function Registration (\PDO $connection)
 {
     $sql = $connection->prepare(" SELECT * FROM `users` WHERE `email`=:_email");
@@ -154,4 +186,13 @@ function Registration (\PDO $connection)
     } else {
         echo "Такой email уже зарегистрирован";
     }
+}
+
+function GetNewsCount(\PDO $connection, $id)
+{
+    $sql = $connection->prepare("SELECT count(*) FROM blog_data WHERE `deleted`=false AND `autor_id`=:id");
+    $sql->execute([':id' => $id]);
+    $data = $sql->fetch();
+
+    return (int)$data['count(*)'];
 }

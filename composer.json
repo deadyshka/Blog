@@ -1,0 +1,20 @@
+{
+  "name": "Epic/blog",
+  "description": "epic blog",
+  "license": "free",
+  "authors": [
+    {
+      "name": "V.I. Tabishev",
+      "email": "79215753293@yandex.ru"
+    }
+  ],
+  "autoload": {
+    "files": [
+      "Lib.php"
+    ],
+    "psr-4": {
+      "Epic\\Controllers\\": "Controllers",
+      "Epic\\": ""
+    }
+  }
+}

@@ -7,6 +7,7 @@ class Home extends Controller
 {
     public function getHome()
     {
+
         if (empty($_SESSION['authorisation']))
         {
             header("Location:http://192.168.100.220/?action=login");
@@ -24,13 +25,38 @@ class Home extends Controller
             'site_url'      => 'http://192.168.100.220/',
         ]);
 
-        $row = Lib\GetNews(Lib\connection());
+        $MessPerPage = 5;
+        $count = Lib\GetNewsCount(Lib\connection(), $_SESSION['id']);
+        $pages = floor($count / $MessPerPage);
+        /*
+         * for($i=0;$i<$count;$i+=10){
+            $row = Lib\GetNews(Lib\connection(), i, 10);
+        }
+        */
+        if (!empty($_GET['page'])) {
+            switch ($_GET['page']) {
+                case 'PrevPage':
+                    if (0 < $_SESSION['CurrentPage'])
+                        $_SESSION['CurrentPage'] -= 1;
+                    break;
+                case 'NextPage':
+                    if ($_SESSION['CurrentPage'] < $pages)
+                        $_SESSION['CurrentPage'] += 1;
+                    break;
+            }
+        }
 
+        $i = $_SESSION['CurrentPage'] * $MessPerPage;
+        $row = Lib\GetNews(Lib\connection(), $i, $MessPerPage);
         echo Lib\template('templates/Blog.php', [
             'authorisation' => $_SESSION["authorisation"],
             'data'          => $row,
             'site_url'      => 'http://192.168.100.220/',
+            'pages'         => $pages + 1,
+            'page'          => $_SESSION['CurrentPage'] + 1,
         ]);
+
+
 
     }
     
