@@ -25,6 +25,7 @@ class Home extends Controller
             'site_url'      => 'http://192.168.100.220/',
         ]);
 
+        empty($_SESSION['CurrentPage']) ? $_SESSION['CurrentPage'] = 0 : true;
         $MessPerPage = 5;
         $count = Lib\GetNewsCount(Lib\connection(), $_SESSION['id']);
         $pages = floor($count / $MessPerPage);
@@ -47,12 +48,9 @@ class Home extends Controller
         echo Lib\template('templates/Blog.php', [
             'authorisation' => $_SESSION["authorisation"],
             'data'          => $row,
-            'site_url'      => 'http://192.168.100.220/',
             'pages'         => $pages + 1,
             'page'          => $_SESSION['CurrentPage'] + 1,
         ]);
-
-
 
     }
     

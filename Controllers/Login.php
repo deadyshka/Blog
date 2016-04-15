@@ -16,16 +16,14 @@ public function getLogin()
             'user'          => null,
             'id'            => null,
             'alert'         => isset($_SESSION['wrong_user_alert']) ? $_SESSION['wrong_user_alert'] : false,
-            'site_url'      => 'http://192.168.100.220/',
+            'site_url'      => SITE_URL,
         ]);
 
     }
 
     public function postLogin()
     {
-        echo Lib\template('templates/head.php', [
-            'title' => "Войти",
-        ]);
+
         if (!empty($_POST['email']) && !empty($_POST['pass'])) {
             if (Lib\authorisation(Lib\connection(), $_POST['email'], $_POST['pass'])) {
                 header("Location:http://192.168.100.220/");
