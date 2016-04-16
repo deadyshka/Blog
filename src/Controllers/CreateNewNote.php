@@ -18,19 +18,17 @@ class CreateNewNote extends Controller
             'user'          => $_SESSION['user'],
             'id'            => $_SESSION['id'],
             'alert'         => $_SESSION['wrong_user_alert'],
-            'site_url'      => 'http://192.168.100.220/',
-
+            'site_url'      => SITE_URL,
         ]);
         echo Lib\template('templates/tmp_CreateNewNote.php', [
             'authorisation' => $_SESSION['authorisation'],
             'token'         => Lib\get_token(),
         ]);
     }
+
     public function postCreateNewNote()
     {
-
-        Lib\CreateNewNote(Lib\connection());
+        Lib\CreateNewNote($this->connection);
         header(SITE_URL);
-
     }
 }

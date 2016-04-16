@@ -17,8 +17,7 @@ class Route
         }
         $action = empty($params['action']) ? 'Home' : $params['action'];
         if (isset($routes[$action])) {
-            $controller = new $routes[$action]();
-
+            $controller = new $routes[$action](\Epic\Lib\connection());
             return $controller->handle($action, empty($_SERVER['REQUEST_METHOD']) ? 'get' : $_SERVER['REQUEST_METHOD'], $params);
         }
 

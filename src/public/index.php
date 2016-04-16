@@ -1,6 +1,6 @@
 <?php namespace Epic;
 
-require 'vendor/autoload.php';
+require '../vendor/autoload.php';
 session_start();
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
@@ -15,6 +15,7 @@ $router->handle($_SERVER['REQUEST_URI'], [
     'registration'  => 'Epic\Controllers\Registration',
     'EditNote'      => 'Epic\Controllers\EditNote',
     'CreateNewNote' => 'Epic\Controllers\CreateNewNote',
+
 ]);
 
 

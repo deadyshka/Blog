@@ -14,7 +14,7 @@
                 <input type="password" name="pass" class="form-control" id="inputPassword3" placeholder="Password">
             </div>
         </div>
-        <input type="submit" class="btn btn-default col-xs-offset-5 " value="Зарегистрироватся " >
+        <input type="submit" class="btn btn-default col-xs-offset-5 " value="Зарегистрироватся ">
     </form>
     <?php if ($alert): ?>
         <div style="color: red; position: absolute; right: 0">

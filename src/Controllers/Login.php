@@ -5,7 +5,7 @@ use Epic\Lib;
 class Login extends Controller
 {
 
-public function getLogin()
+    public function getLogin()
     {
         echo Lib\template('templates/head.php', [
             'title' => "Войти",
@@ -25,11 +25,11 @@ public function getLogin()
     {
 
         if (!empty($_POST['email']) && !empty($_POST['pass'])) {
-            if (Lib\authorisation(Lib\connection(), $_POST['email'], $_POST['pass'])) {
+            if (Lib\authorisation($this->connection, $_POST['email'], $_POST['pass'])) {
                 header("Location:http://192.168.100.220/");
             }
         }
-        if (!empty($_POST['btn_logout'])){
+        if (!empty($_POST['btn_logout'])) {
             Lib\logout();
         }
     }

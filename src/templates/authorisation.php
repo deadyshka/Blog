@@ -4,13 +4,14 @@
 
     <?php if (!$authorisation): ?>
 
-        <form class="form-horizontal" method="post" action="<?= $site_url ?>?action=login" style="position: absolute; top: 55px; right: 50px; width: 300px">
+        <form class="form-horizontal" method="post" action="<?= $site_url ?>?action=login"
+              style="position: absolute; top: 55px; right: 50px; width: 300px">
             <div class="form-group">
                 <label for="inputEmail3" class="col-sm-2 control-label">Почта</label>
                 <div class="col-sm-10">
                     <input type="email" name="email" class="form-control" id="inputEmail3" placeholder="Email">
                 </div>
-</div>
+            </div>
             <div class="form-group">
                 <label for="inputPassword3" class="col-sm-2 control-label">Пароль</label>
                 <div class="col-sm-10">
@@ -23,15 +24,15 @@
                 </div>
 
             </div>
-
         </form>
-        <form action="<?= $site_url ?>?action=registration" class="form-horizontal" method="post" style="position: absolute; top: 153px; right:  0px; width: 200px">
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <input type="submit" name="reg" value="Зарегистрироваться" class="btn btn-default">
-            </div>
+        <form action="<?= $site_url ?>?action=registration" class="form-horizontal" method="post"
+              style="position: absolute; top: 153px; right:  0px; width: 200px">
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <input type="submit" name="reg" value="Зарегистрироваться" class="btn btn-default">
+                </div>
 
-        </div>
+            </div>
         </form>
         <?php if ($alert): ?>
             <div style="color: red; position: absolute; top: 200px; right: 40px; width: 250px">

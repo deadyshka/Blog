@@ -2,8 +2,10 @@
 <html lang="en">
 
 <meta charset="utf-8">
-<link rel="stylesheet" href="http://192.168.100.220/templates/bootstrap-3.3.6-dist/css/bootstrap.min.css" type="text/css">
-<link rel="stylesheet" href="http://192.168.100.220/templates/bootstrap-3.3.6-dist/css/bootstrap-theme.min.css" type="text/css">
+<link rel="stylesheet" href="http://192.168.100.220/templates/bootstrap-3.3.6-dist/css/bootstrap.min.css"
+      type="text/css">
+<link rel="stylesheet" href="http://192.168.100.220/templates/bootstrap-3.3.6-dist/css/bootstrap-theme.min.css"
+      type="text/css">
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container">
         <div class="navbar-header">

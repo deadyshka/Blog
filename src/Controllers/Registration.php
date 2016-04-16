@@ -15,13 +15,13 @@ class Registration extends Controller
             'alert'         => false,
         ]);
     }
-    
+
     public function postRegistration()
     {
 
 
         if (!empty($_POST["email"]) && !empty($_POST["pass"])) {
-            Lib\Registration(Lib\connection());
+            Lib\Registration($this->connection);
             header(SITE_URL);
         } else {
             $this->getRegistration();

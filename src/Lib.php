@@ -101,13 +101,19 @@ function template($name, array $vars = [])
 /**
  * Получить все новости
  * @param \PDO $connection
- * @return \PDOStatement
+ * @param $number
+ * @param $count
+ * @return bool|\PDOStatement
  */
 function GetNews(\PDO $connection, $number, $count)
 {
+    if ($number >= 0 && $count >= 0) {
     $row = $connection->prepare("SELECT * FROM blog_data WHERE `autor_id`=:_id AND `deleted`=FALSE ORDER BY `id` DESC LIMIT {$number},{$count}");
     $row->execute([':_id' => $_SESSION["id"]]);
     return $row;
+    } else {
+        return false;
+    }
 }
 
 /**
@@ -131,11 +137,13 @@ function CreateNewNote(\PDO $connection)
  * @param \PDO $connection
  * @return mixed
  */
-function GetNew(\PDO $connection)
+function GetNew(\PDO $connection, $id)
 {
     $sql = $connection->prepare(
         "SELECT `title`, `body` FROM blog_data WHERE `id`=:_id");
-    $sql->execute([':_id' => $_POST['note_id']]);
+    $sql->execute([
+        ':_id' => $id,
+    ]);
 
     return $sql->fetch();
 
@@ -188,6 +196,12 @@ function Registration (\PDO $connection)
     }
 }
 
+/**
+ * Количество новостей пользователя
+ * @param \PDO $connection
+ * @param $id
+ * @return int
+ */
 function GetNewsCount(\PDO $connection, $id)
 {
     $sql = $connection->prepare("SELECT count(*) FROM blog_data WHERE `deleted`=false AND `autor_id`=:id");
@@ -196,3 +210,4 @@ function GetNewsCount(\PDO $connection, $id)
 
     return (int)$data['count(*)'];
 }
+
