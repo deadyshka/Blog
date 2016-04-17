@@ -21,7 +21,7 @@
             <ul class="nav navbar-nav">
                 <li><a href="http://192.168.100.220/">Home</a></li>
             </ul>
-        </div><!--/.nav-collapse -->
+        </div>
     </div>
 </div>
 </html>
