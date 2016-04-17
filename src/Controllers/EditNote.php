@@ -10,14 +10,14 @@ class EditNote extends Controller
         if (empty($_SESSION['authorisation'])) {
             header("Location:http://192.168.100.220/?action=login");
         }
-        echo Lib\template('templates/head.php', [
+        echo Lib\template('templates/tmp_head.php', [
             'title' => "Отредактировать новость",
         ]);
 
-        echo Lib\template('templates/authorisation.php', [
+        echo Lib\template('templates/tmp_authorisation.php', [
             'authorisation' => $_SESSION['authorisation'],
             'user'          => $_SESSION['user'],
-            'id'            => $_SESSION['id'],
+            'id'            => $id,
             'alert'         => $_SESSION['wrong_user_alert'],
             'site_url'      => 'http://192.168.100.220/',
 
@@ -28,7 +28,7 @@ class EditNote extends Controller
             'authorisation' => $_SESSION['authorisation'],
             'title'         => $data['title'],
             'body'          => $data['body'],
-            'note_id'       => $_POST['note_id'],
+            'note_id'       => $id,
             'token'         => Lib\get_token(),
             'site_url'      => 'http://192.168.100.220/',
         ]);

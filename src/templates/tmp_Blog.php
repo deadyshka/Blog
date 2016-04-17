@@ -34,11 +34,13 @@
                         </tr>
                         <tr>
                             <td class="note_bottom">
+                                <?php if ($_SESSION['id'] == $output['autor_id']): ?>
                                 <form method="post" action="<?= SITE_URL ?>?action=EditNote">
                                     <input type="submit" name="btn_edit_note" value="Редактировать новость">
                                     <input type="hidden" name="note_id" value="<?= $output['id']; ?>">
                                 </form>
-                                <?php if ($output['updated'])
+                                <?php endif;
+                                if ($output['updated'])
                                     echo "<div>Редактировалось: " . $output['updated'] . "</div>";
                                 ?>
                                 Создана: <?= $output['created']; ?>

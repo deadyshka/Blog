@@ -5,20 +5,30 @@ use Epic\Lib;
 
 class Home extends Controller
 {
-    private $MessPerPage = 10;
+    private $MessPerPage = 1;
     
     public function getHome()
     {
-
+        $title = null;
         if (empty($_SESSION['authorisation'])) {
             header("Location:http://192.168.100.220/?action=login");
         }
 
-        echo Lib\template('templates/head.php', [
-            'title' => "Это ваш личный блог! {$_SESSION['user']}",
+        if (empty($_GET)) {
+            $_SESSION['blog_id'] = $_SESSION['id'];
+        }
+        if (!empty($_GET['user_id'])) {
+            $_SESSION['blog_id'] = $_GET['user_id'];
+        }
+
+        $UserData = Lib\GetUserById($this->connection, $_SESSION['blog_id']);
+
+        $UserData['id'] == $_SESSION["id"] ? $title = 'Привет!' : $title = 'Это блог: ';
+        echo Lib\template('templates/tmp_head.php', [
+            'title' => "{$title} {$UserData['email']}",
         ]);
 
-        echo Lib\template('templates/authorisation.php', [
+        echo Lib\template('templates/tmp_authorisation.php', [
             'authorisation' => $_SESSION["authorisation"],
             'user'          => $_SESSION["user"],
             'id'            => $_SESSION["id"],
@@ -27,15 +37,14 @@ class Home extends Controller
         ]);
 
 
-        $count = Lib\GetNewsCount($this->connection, $_SESSION['id']);
-        $this->MessPerPage = 10;
+        $count = Lib\GetNewsCount($this->connection, $_SESSION['blog_id']);
         $pages = ceil($count / $this->MessPerPage);
         empty($_GET['page']) ? $page = 1 : $page = (int)$_GET['page'];
 
         if ($page <= $pages) {
             $i = ($page - 1) * $this->MessPerPage;
-            $data = Lib\GetNews($this->connection, $i, $this->MessPerPage);
-        echo Lib\template('templates/Blog.php', [
+            $data = Lib\GetNews($this->connection, $i, $this->MessPerPage, $_SESSION['blog_id']);
+            echo Lib\template('templates/tmp_Blog.php', [
             'authorisation' => $_SESSION["authorisation"],
             'data'          => $data,
             'pages'         => $pages,

@@ -7,11 +7,11 @@ class Login extends Controller
 
     public function getLogin()
     {
-        echo Lib\template('templates/head.php', [
+        echo Lib\template('templates/tmp_head.php', [
             'title' => "Войти",
         ]);
 
-        echo Lib\template('templates/authorisation.php', [
+        echo Lib\template('templates/tmp_authorisation.php', [
             'authorisation' => false,
             'user'          => null,
             'id'            => null,

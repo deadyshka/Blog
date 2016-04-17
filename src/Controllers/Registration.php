@@ -7,7 +7,7 @@ class Registration extends Controller
 {
     public function getRegistration()
     {
-        echo Lib\template('templates/head.php', [
+        echo Lib\template('templates/tmp_head.php', [
             'title' => "Регистрация",
         ]);
         echo Lib\template('templates/tmp_Registration.php', [

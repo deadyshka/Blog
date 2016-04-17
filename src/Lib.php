@@ -105,11 +105,11 @@ function template($name, array $vars = [])
  * @param $count
  * @return bool|\PDOStatement
  */
-function GetNews(\PDO $connection, $number, $count)
+function GetNews(\PDO $connection, $number, $count, $id)
 {
     if ($number >= 0 && $count >= 0) {
     $row = $connection->prepare("SELECT * FROM blog_data WHERE `autor_id`=:_id AND `deleted`=FALSE ORDER BY `id` DESC LIMIT {$number},{$count}");
-    $row->execute([':_id' => $_SESSION["id"]]);
+        $row->execute([':_id' => $id]);
     return $row;
     } else {
         return false;
@@ -204,10 +204,26 @@ function Registration (\PDO $connection)
  */
 function GetNewsCount(\PDO $connection, $id)
 {
-    $sql = $connection->prepare("SELECT count(*) FROM blog_data WHERE `deleted`=false AND `autor_id`=:id");
+    $sql = $connection->prepare('SELECT count(*) FROM blog_data WHERE `deleted`=false AND `autor_id`=:id');
     $sql->execute([':id' => $id]);
     $data = $sql->fetch();
 
     return (int)$data['count(*)'];
 }
 
+function GetUsersList(\PDO $connection)
+{
+    $sql = $connection->prepare('SELECT `email`, `id` FROM users WHERE `deleted`=false ORDER BY `id` DESC');
+    $sql->execute();
+
+    return $sql;
+}
+
+function GetUserById(\PDO $connection, $id)
+{
+    $sql = $connection->prepare('SELECT * FROM users WHERE `deleted`=false AND `id`=:id');
+    $sql->execute([':id' => $id]);
+    $data = $sql->fetch();
+
+    return $data;
+}

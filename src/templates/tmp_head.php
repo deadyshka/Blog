@@ -20,6 +20,7 @@
         <div class="navbar-collapse collapse" style="height: 1px;">
             <ul class="nav navbar-nav">
                 <li><a href="http://192.168.100.220/">Home</a></li>
+                <li><a href="http://192.168.100.220/?action=OtherBlogs">Другие блоги</a></li>
             </ul>
         </div>
     </div>
