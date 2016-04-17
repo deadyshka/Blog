@@ -52,7 +52,7 @@ function authorisation(\PDO $connection = null, $email= null, $pass = null)
 function logout()
 {
     session_destroy();
-    header("Location:http://192.168.100.220/");
+    header(SITE_URL);
     die();
 }
 
@@ -126,7 +126,7 @@ function CreateNewNote(\PDO $connection)
         $sql = $connection->prepare(
             "INSERT INTO blog_data(`title`,`body`, `autor_id`) VALUES (:_title, :_body, :_id);");
         if ($sql->execute([':_title' => $_POST['title'], ':_body' => $_POST['body'], ':_id' => $_SESSION['id']])) {
-            header("Location:http://192.168.100.220/");
+            header(SITE_URL);
         } else
             echo 'ошибка';
     }
@@ -161,7 +161,7 @@ function ApplyEditNew(\PDO $connection)
                        ':_body'  => $_POST['body'],
                        ':_id'    => $_POST['note_id']])
     ) {
-        header("Location:http://192.168.100.220/");
+        header(SITE_URL);
     }
 }
 
@@ -174,7 +174,7 @@ function DeleteNew (\PDO $connection)
     $sql = $connection->prepare(
         "UPDATE blog_data  SET `deleted`=TRUE WHERE `id`=:_id;");
     if ($sql->execute([':_id' => $_POST['note_id']])) {
-        header("Location:http://192.168.100.220/");
+        header(SITE_URL);
     }
 }
 
@@ -190,7 +190,7 @@ function Registration (\PDO $connection)
         $sql = $connection->prepare(" INSERT INTO `users`(`email`,`password`) VALUES (:_email, :_pass)");
         $sql->execute([':_email' => $_POST['email'], ':_pass' => md5($_POST['pass'])]);
         $_SESSION["reg_success"];
-        header("Location:http://192.168.100.220/");
+        header(SITE_URL);
     } else {
         echo "Такой email уже зарегистрирован";
     }

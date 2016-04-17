@@ -9,7 +9,7 @@ class OtherBlogs extends Controller
     public function getOtherBlogs()
     {
         if (empty($_SESSION['authorisation'])) {
-            header("Location:http://192.168.100.220/?action=login");
+            header(SITE_URL . '?action=login');
         }
         echo Lib\template('templates/tmp_head.php', [
             'title' => "Посмотрите блоги друзей! {$_SESSION['user']}",
@@ -20,7 +20,7 @@ class OtherBlogs extends Controller
             'user'          => $_SESSION["user"],
             'id'            => $_SESSION["id"],
             'alert'         => $_SESSION["wrong_user_alert"],
-            'site_url'      => 'http://192.168.100.220/',
+            'site_url'      => SITE_URL,
         ]);
 
         $data = Lib\GetUsersList($this->connection);

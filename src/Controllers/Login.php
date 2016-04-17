@@ -26,7 +26,7 @@ class Login extends Controller
 
         if (!empty($_POST['email']) && !empty($_POST['pass'])) {
             if (Lib\authorisation($this->connection, $_POST['email'], $_POST['pass'])) {
-                header("Location:http://192.168.100.220/");
+                header(SITE_URL);
             }
         }
         if (!empty($_POST['btn_logout'])) {

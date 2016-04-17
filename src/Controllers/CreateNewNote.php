@@ -8,7 +8,7 @@ class CreateNewNote extends Controller
     public function getCreateNewNote()
     {
         if (empty($_SESSION['authorisation'])) {
-            header("Location:http://192.168.100.220/?action=login");
+            header(SITE_URL . '?action=login');
         }
         echo Lib\template('templates/tmp_head.php', [
             'title' => "Оставить сообщение",
@@ -29,6 +29,6 @@ class CreateNewNote extends Controller
     public function postCreateNewNote()
     {
         Lib\CreateNewNote($this->connection);
-        header(SITE_URL);
+        header('Location:' . SITE_URL);
     }
 }

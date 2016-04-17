@@ -11,7 +11,7 @@ class Home extends Controller
     {
         $title = null;
         if (empty($_SESSION['authorisation'])) {
-            header("Location:http://192.168.100.220/?action=login");
+            header(SITE_URL . '?action=login');
         }
 
         if (empty($_GET)) {
@@ -33,7 +33,7 @@ class Home extends Controller
             'user'          => $_SESSION["user"],
             'id'            => $_SESSION["id"],
             'alert'         => $_SESSION["wrong_user_alert"],
-            'site_url'      => 'http://192.168.100.220/',
+            'site_url'      => SITE_URL,
         ]);
 
 

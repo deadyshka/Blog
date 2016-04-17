@@ -4,7 +4,7 @@
 <br>
 <?php if ($authorisation): ?>
 
-    <form method="post" action="<?= $site_url ?>?action=EditNote" style="position: absolute; top: 100px; left: 20px">
+    <form method="post" style="position: absolute; top: 100px; left: 20px">
         Заголовок<br>
         <input type="text" name="title" value="<?= $title ?>"><br>
         Тело<br>

@@ -34,10 +34,7 @@
 
                         </tr>
                         <td>
-                            <?php
-                            if ($output['updated'])
-                                echo "<div>Редактировалось: " . $data['updated'] . "</div>";
-                            ?>
+                            
 
                         <td class="note_comment">Коментарий создан: <?= $data['created']; ?>
                             by <?= htmlspecialchars($data['autor_name']); ?></td>
