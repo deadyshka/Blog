@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 
-<link rel="stylesheet" href="http://192.168.100.220/templates/css/blog.css"/>
+<link rel="stylesheet" href="/assets/css/blog.css"/>
 <?php if ($_SESSION["authorisation"]): ?>
-
     <a href="<?= SITE_URL ?>?action=CreateNewNote"
     <button class="btn btn-success" style="position: absolute; top: 55px; left: 30px">Поделится новостью
     </button>
     </a>
-
     <form method="get">
         <ul class="pagination" style="position: absolute; left: 200px; top: 35px">
             <li><a href="?page=1">&laquo;</a></li>
