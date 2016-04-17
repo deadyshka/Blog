@@ -5,8 +5,8 @@ use Epic\Lib;
 
 class Home extends Controller
 {
-    private $MessPerPage = 1;
-    
+    private $MessPerPage = 10;
+
     public function getHome()
     {
         $title = null;
@@ -45,11 +45,12 @@ class Home extends Controller
             $i = ($page - 1) * $this->MessPerPage;
             $data = Lib\GetNews($this->connection, $i, $this->MessPerPage, $_SESSION['blog_id']);
             echo Lib\template('templates/tmp_Blog.php', [
-            'authorisation' => $_SESSION["authorisation"],
-            'data'          => $data,
-            'pages'         => $pages,
-            'page'          => $page,
-        ]);
+                'authorisation' => $_SESSION["authorisation"],
+                'data'          => $data,
+                'pages'         => $pages,
+                'page'          => $page,
+                'connection'    => $this->connection,
+            ]);
         }
     }
 

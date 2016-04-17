@@ -10,8 +10,8 @@
                 <tbody>
                 <?php while ($output = $data->fetch()): ?>
                     <tr>
-                        <td class="note_head"><a
-                                href="?user_id=<?= $output['id']; ?>"><?= htmlspecialchars($output['email']); ?></a>
+                        <td class="note_head">
+                            <a href="?user_id=<?= $output['id']; ?>"><?= htmlspecialchars($output['email']); ?> </a>
                         </td>
                     </tr>
                     <tr>

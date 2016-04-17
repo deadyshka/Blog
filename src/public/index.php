@@ -16,6 +16,7 @@ $router->handle($_SERVER['REQUEST_URI'], [
     'EditNote'      => 'Epic\Controllers\EditNote',
     'CreateNewNote' => 'Epic\Controllers\CreateNewNote',
     'OtherBlogs'    => 'Epic\Controllers\OtherBlogs',
+    'Comment'       => 'Epic\Controllers\Comment',
 ]);
 
 

@@ -27,10 +27,15 @@
                     <tbody>
                     <?php while ($output = $data->fetch()): ?>
                         <tr>
-                            <td class="note_head"><?= htmlspecialchars($output['title']); ?></td>
+                            <td class="note_head"><a href="?action=Comment&mess_id=<?= $output['id']; ?>">
+                                    <?= htmlspecialchars($output['title']); ?></a></td>
                         </tr>
                         <tr>
                             <td class="note_body"><?= htmlspecialchars($output['body']); ?></td>
+                        </tr>
+                        <tr>
+                            <td>Количество
+                                коментариев: <?= \Epic\Lib\GetCommentsCount($connection, $output['id']); ?></td>
                         </tr>
                         <tr>
                             <td class="note_bottom">
@@ -43,7 +48,7 @@
                                 if ($output['updated'])
                                     echo "<div>Редактировалось: " . $output['updated'] . "</div>";
                                 ?>
-                                Создана: <?= $output['created']; ?>
+                                <div>Создана: <?= $output['created']; ?></div>
                             </td>
                         </tr>
                     <?php endwhile; ?>

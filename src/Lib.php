@@ -140,7 +140,7 @@ function CreateNewNote(\PDO $connection)
 function GetNew(\PDO $connection, $id)
 {
     $sql = $connection->prepare(
-        "SELECT `title`, `body` FROM blog_data WHERE `id`=:_id");
+        "SELECT * FROM blog_data WHERE `id`=:_id");
     $sql->execute([
         ':_id' => $id,
     ]);
@@ -226,4 +226,34 @@ function GetUserById(\PDO $connection, $id)
     $data = $sql->fetch();
 
     return $data;
+}
+
+function AddComment(\PDO $connection, $note_id, $body, $autor_id, $autor_name)
+{
+
+    $sql = $connection->prepare(
+        'INSERT INTO comments(`message_id`,`body`, `autor_id`, `autor_name`) 
+                VALUES (:note_id, :body, :autor_id, :autor_name)');
+    if ($sql->execute([':note_id' => $note_id, ':body' => $body, ':autor_id' => $autor_id, ':autor_name' => $autor_name])) {
+        return;
+    } else {
+        echo 'ошибка';
+    }
+}
+
+function GetComments(\PDO $connection, $id)
+{
+    $sql = $connection->prepare('SELECT * FROM comments WHERE `message_id`=:id');
+    $sql->execute([':id' => $id]);
+
+    return $sql;
+}
+
+function GetCommentsCount(\PDO $connection, $id)
+{
+    $sql = $connection->prepare('SELECT count(*) FROM comments WHERE `message_id`=:id');
+    $sql->execute([':id' => $id]);
+    $data = $sql->fetch();
+
+    return (int)$data['count(*)'];
 }
